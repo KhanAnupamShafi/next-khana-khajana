@@ -9,9 +9,9 @@ export async function dbConnect() {
   }
 
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      directConnection: true,
-    });
+    const conn = await mongoose.connect(
+      "mongodb+srv://vercel-admin-user-66368bfaab78d05a20034636:5aPBzHYAWqgRGJBM@aws-ap-south-1.hcihgob.mongodb.net/khanaKhazana"
+    );
 
     console.log("Connected to MongoDB");
     cachedDb = conn;
