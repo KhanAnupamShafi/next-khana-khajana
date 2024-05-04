@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const RecipeCard = ({ recipeData }) => {
@@ -16,7 +17,9 @@ const RecipeCard = ({ recipeData }) => {
         height={300}
         width={300}
       />
-      <h4 className='my-2'>{name}</h4>
+      <Link href={`/recipe/${id}`}>
+        <h4 className='my-2'>{name}</h4>
+      </Link>
       <div className='py-2 flex justify-between text-xs text-gray-500'>
         <span>⭐️ {rating.toFixed(1)}</span>
         <span>By: {author}</span>
