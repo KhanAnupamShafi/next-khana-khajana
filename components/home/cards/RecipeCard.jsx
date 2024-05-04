@@ -1,14 +1,11 @@
-"use client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const RecipeCard = ({ recipeData }) => {
   const { id, name, thumbnail, author, rating } = recipeData;
-  const router = useRouter();
+  //   const router = useRouter();
   return (
-    <div
-      onClick={() => router.push(`/recipe/${id}`)}
-      className='card cursor-pointer'>
+    <Link href={`/recipe/${id}`} className='card cursor-pointer'>
       <Image
         src={thumbnail}
         className='rounded-md h-[300] w-[300]'
@@ -21,7 +18,7 @@ const RecipeCard = ({ recipeData }) => {
         <span>⭐️ {rating.toFixed(1)}</span>
         <span>By: {author}</span>
       </div>
-    </div>
+    </Link>
   );
 };
 
