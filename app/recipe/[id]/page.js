@@ -1,6 +1,27 @@
+import MakeFavourite from "@/components/recipe-detail/MakeFavourite";
+import Procedure from "@/components/recipe-detail/Procedure";
+import Share from "@/components/recipe-detail/Share";
 import { getRecipeById } from "@/db/queries";
 import Image from "next/image";
 
+export async function generateMetadata({ params: { id } }) {
+  const recipe = await getRecipeById(id);
+
+  if (recipe) {
+    return {
+      title: `${recipe?.name}`,
+      description: recipe?.description,
+      openGraph: {
+        images: [recipe?.image],
+      },
+    };
+  } else {
+    return {
+      title: "Recipe Not Found",
+      description: "Recipe not found that requested by user.",
+    };
+  }
+}
 const RecipeDetailPage = async ({ params: { id } }) => {
   const recipe = await getRecipeById(id);
 
@@ -99,9 +120,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
             </div>
 
             <div className='flex gap-4 justify-end'>
-              {/* <ActionFavourite recipeId={recipe?.id} />
+              <MakeFavourite recipeId={recipe?.id} />
 
-              <ActionShare /> */}
+              <Share />
             </div>
           </div>
         </div>
@@ -111,9 +132,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
         <div class='container py-12'>
           <h3 class='font-semibold text-xl py-6'>How to Make it</h3>
           <div>
-            {/* {recipe?.steps?.map((step, i) => (
-              <Step key={i} stepNo={i} stepDescription={step} />
-            ))} */}
+            {recipe?.steps?.map((step, i) => (
+              <Procedure key={i} step={i} desc={step} />
+            ))}
           </div>
         </div>
       </section>

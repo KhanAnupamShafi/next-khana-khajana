@@ -1,6 +1,13 @@
 import RecipeCard from "@/components/home/cards/RecipeCard";
 import { getRecipeByCategory } from "@/db/queries";
 
+export async function generateMetadata({ params: { id } }) {
+  const categoryName = decodeURIComponent(id);
+  return {
+    title: `Category - ${categoryName}`,
+  };
+}
+
 const page = async ({ params: { id } }) => {
   const categoryName = decodeURIComponent(id);
   const recipes = await getRecipeByCategory(categoryName);

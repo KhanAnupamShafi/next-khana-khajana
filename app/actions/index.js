@@ -1,5 +1,11 @@
 "use server";
-import { createUser, findUserByCredentials, getAllRecipes } from "@/db/queries";
+import {
+  createUser,
+  findUserByCredentials,
+  updateIsFavourite,
+} from "@/db/queries";
+import { Recipe } from "@/models/recipe-model";
+import { replaceMongoIdInObject } from "@/utils";
 import { redirect } from "next/navigation";
 
 async function registerUser(formData) {
@@ -16,11 +22,19 @@ async function loginUser(formData) {
   return found;
 }
 async function retrieveCategories() {
-  const allRecipe = await getAllRecipes();
-  // eslint-disable-next-line no-undef
-  const categoryList = [...new Set(allRecipe.map((recipe) => recipe.category))];
+  const categories = await Recipe.aggregate([
+    { $group: { _id: "$category" } },
+    { $project: { _id: 0, category: "$_id" } },
+  ]);
+  // Extract category names from the result
+  const categoryList = categories.map((category) => category.category);
 
   return categoryList;
 }
 
-export { loginUser, registerUser, retrieveCategories };
+async function addToFavourite(recipeId, auth) {
+  const res = await updateIsFavourite(recipeId, auth);
+  return replaceMongoIdInObject(res?._doc);
+}
+
+export { addToFavourite, loginUser, registerUser, retrieveCategories };
