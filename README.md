@@ -1,4 +1,4 @@
-# Khana Khajana
+# Khana Khajanaxx
 
 Khana Khajana is a Next.js project for managing recipes. It uses MongoDB for data storage and performs various server actions like user registration, login, and recipe management.
 
