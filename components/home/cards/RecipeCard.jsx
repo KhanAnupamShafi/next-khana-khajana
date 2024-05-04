@@ -1,9 +1,10 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 
 const RecipeCard = ({ recipeData }) => {
   const { id, name, thumbnail, author, rating } = recipeData;
-
+  //   const router = useRouter();
   return (
     <Link href={`/recipe/${id}`} className='card cursor-pointer'>
       <Image
