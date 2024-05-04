@@ -17,7 +17,7 @@ const inter = Inter({
 export const metadata = {
   title: "Khana Khazana",
   description:
-    "Khana Khazana || Savor culinary excellence at our restaurant. Reserve now for an unforgettable dining experience!",
+    "Khana Khazana || Savor culinary excellence at our restaurant. Reserve now for an unforgettable dining experience !!",
 };
 
 export default async function RootLayout({ children }) {
