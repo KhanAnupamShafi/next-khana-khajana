@@ -1,9 +1,12 @@
 import { Recipe } from "@/models/recipe-model";
 import { User } from "@/models/user-model";
+import { dbConnect } from "@/services/dbconnect";
 import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/utils";
 import mongoose from "mongoose";
 
 async function createUser(user) {
+  await dbConnect();
+
   const isExistUser = await User.findOne({ email: user.email }).lean();
   if (!isExistUser) {
     return await User.create(user);
@@ -13,6 +16,8 @@ async function createUser(user) {
 }
 
 async function findUserByCredentials(credentials) {
+  await dbConnect();
+
   const user = await User.findOne(credentials).lean();
   if (user) {
     return replaceMongoIdInObject(user);
@@ -21,6 +26,8 @@ async function findUserByCredentials(credentials) {
 }
 
 async function getAllRecipes() {
+  await dbConnect();
+
   const allRecipes = await Recipe.find().lean();
   return replaceMongoIdInArray(allRecipes);
 }
@@ -31,11 +38,15 @@ async function getRecipeById(recipeId) {
   }
 }
 async function getRecipeByCategory(categoryName) {
+  await dbConnect();
+
   const recipe = await Recipe.find({ category: categoryName }).lean();
   return replaceMongoIdInArray(recipe);
 }
 
 async function updateIsFavourite(recipeId, authUser) {
+  await dbConnect();
+
   const user = await User.findById(authUser.id);
 
   if (user) {

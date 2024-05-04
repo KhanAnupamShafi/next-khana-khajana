@@ -2,7 +2,6 @@ import { Inter, Poppins } from "next/font/google";
 
 import Navbar from "@/components/home/header/Navbar";
 import AuthProvider from "@/contextApi/providers/AuthProvider";
-import { dbConnect } from "@/services/dbconnect";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -21,8 +20,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  await dbConnect();
-
   //   const headersList = headers();
   //   const header_url = headersList.get("x-url") || "";
   return (
