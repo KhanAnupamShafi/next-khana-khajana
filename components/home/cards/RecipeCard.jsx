@@ -12,7 +12,7 @@ const RecipeCard = ({ recipeData }) => {
         height={300}
         width={300}
       />
-      <Link href={`/recipe/${id}`}>
+      <Link href={`recipe/${id}`}>
         <h4 className='my-2'>{name}</h4>
       </Link>
       <div className='py-2 flex justify-between text-xs text-gray-500'>
