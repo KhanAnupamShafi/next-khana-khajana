@@ -16,13 +16,17 @@ async function createUser(user) {
 }
 
 async function findUserByCredentials(credentials) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const user = await User.findOne(credentials).lean();
-  if (user) {
-    return replaceMongoIdInObject(user);
+    const user = await User.findOne(credentials).lean();
+    if (user) {
+      return replaceMongoIdInObject(user);
+    }
+    return null;
+  } catch (error) {
+    return error;
   }
-  return null;
 }
 
 async function getAllRecipes() {
