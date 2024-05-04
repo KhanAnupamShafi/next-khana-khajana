@@ -10,8 +10,7 @@ export async function dbConnect() {
 
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+      directConnection: true,
     });
 
     console.log("Connected to MongoDB");
