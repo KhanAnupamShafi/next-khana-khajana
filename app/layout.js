@@ -2,6 +2,7 @@ import { Inter, Poppins } from "next/font/google";
 
 import Navbar from "@/components/home/header/Navbar";
 import AuthProvider from "@/contextApi/providers/AuthProvider";
+import { dbConnect } from "@/services/dbconnect";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -22,6 +23,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
   //   const headersList = headers();
   //   const header_url = headersList.get("x-url") || "";
+  await dbConnect();
   return (
     <html lang='en'>
       <body className={`${poppins.variable} ${inter.variable}`}>
