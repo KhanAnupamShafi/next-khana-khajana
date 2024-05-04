@@ -5,13 +5,17 @@ import { replaceMongoIdInArray, replaceMongoIdInObject } from "@/utils";
 import mongoose from "mongoose";
 
 async function createUser(user) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const isExistUser = await User.findOne({ email: user.email }).lean();
-  if (!isExistUser) {
-    return await User.create(user);
-  } else {
-    throw new Error("User already registered.");
+    const isExistUser = await User.findOne({ email: user.email }).lean();
+    if (!isExistUser) {
+      return await User.create(user);
+    } else {
+      throw new Error("User already registered.");
+    }
+  } catch (error) {
+    throw new Error(`Error creating user: ${error.message}`);
   }
 }
 
@@ -25,47 +29,65 @@ async function findUserByCredentials(credentials) {
     }
     return null;
   } catch (error) {
-    return error;
+    throw new Error(`Error finding user by credentials: ${error.message}`);
   }
 }
 
 async function getAllRecipes() {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const allRecipes = await Recipe.find().lean();
-  return replaceMongoIdInArray(allRecipes);
-}
-async function getRecipeById(recipeId) {
-  const recipe = await Recipe.findById(recipeId).lean();
-  if (recipe) {
-    return replaceMongoIdInObject(recipe);
+    const allRecipes = await Recipe.find().lean();
+    return replaceMongoIdInArray(allRecipes);
+  } catch (error) {
+    throw new Error(`Error getting all recipes: ${error.message}`);
   }
 }
-async function getRecipeByCategory(categoryName) {
-  await dbConnect();
 
-  const recipe = await Recipe.find({ category: categoryName }).lean();
-  return replaceMongoIdInArray(recipe);
+async function getRecipeById(recipeId) {
+  try {
+    const recipe = await Recipe.findById(recipeId).lean();
+    if (recipe) {
+      return replaceMongoIdInObject(recipe);
+    }
+  } catch (error) {
+    throw new Error(`Error getting recipe by ID: ${error.message}`);
+  }
+}
+
+async function getRecipeByCategory(categoryName) {
+  try {
+    await dbConnect();
+
+    const recipe = await Recipe.find({ category: categoryName }).lean();
+    return replaceMongoIdInArray(recipe);
+  } catch (error) {
+    throw new Error(`Error getting recipe by category: ${error.message}`);
+  }
 }
 
 async function updateIsFavourite(recipeId, authUser) {
-  await dbConnect();
+  try {
+    await dbConnect();
 
-  const user = await User.findById(authUser.id);
+    const user = await User.findById(authUser.id);
 
-  if (user) {
-    const foundRecipe = user.favourites.find(
-      (id) => id.toString() === recipeId
-    );
+    if (user) {
+      const foundRecipe = user.favourites.find(
+        (id) => id.toString() === recipeId
+      );
 
-    if (foundRecipe) {
-      user.favourites.pull(new mongoose.Types.ObjectId(recipeId));
-    } else {
-      user.favourites.push(new mongoose.Types.ObjectId(recipeId));
+      if (foundRecipe) {
+        user.favourites.pull(new mongoose.Types.ObjectId(recipeId));
+      } else {
+        user.favourites.push(new mongoose.Types.ObjectId(recipeId));
+      }
+
+      const res = await user.save();
+      return res;
     }
-
-    const res = await user.save();
-    return res;
+  } catch (error) {
+    throw new Error(`Error updating favourite: ${error.message}`);
   }
 }
 
