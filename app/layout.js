@@ -21,8 +21,6 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  //   const headersList = headers();
-  //   const header_url = headersList.get("x-url") || "";
   await dbConnect();
   return (
     <html lang='en'>
