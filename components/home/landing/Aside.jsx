@@ -4,6 +4,16 @@ import Link from "next/link";
 const Aside = async () => {
   const categoryList = await retrieveCategories();
 
+  if (!categoryList || categoryList.length === 0) {
+    // If no data or data is empty
+    return (
+      <aside className='col-span-12 md:col-span-3'>
+        <h3 className='font-bold text-xl'>Recipes</h3>
+        <p>No categories available.</p>
+      </aside>
+    );
+  }
+
   return (
     <aside className='col-span-12 md:col-span-3'>
       <h3 className='font-bold text-xl'>Recipes</h3>
