@@ -8,14 +8,14 @@ async function createUser(user) {
   try {
     await dbConnect();
 
-    const isExistUser = await User.findOne({ email: user.email }).lean();
+    const isExistUser = await User.findOne({ email: user?.email }).lean();
     if (!isExistUser) {
       return await User.create(user);
     } else {
       throw new Error("User already registered.");
     }
   } catch (error) {
-    throw new Error(`Error creating user: ${error.message}`);
+    throw new Error(`Error creating user: ${error?.message}`);
   }
 }
 
@@ -29,7 +29,7 @@ async function findUserByCredentials(credentials) {
     }
     return null;
   } catch (error) {
-    throw new Error(`Error finding user by credentials: ${error.message}`);
+    throw new Error(`Error finding user by credentials: ${error?.message}`);
   }
 }
 
@@ -40,7 +40,7 @@ async function getAllRecipes() {
     const allRecipes = await Recipe.find().lean();
     return replaceMongoIdInArray(allRecipes);
   } catch (error) {
-    throw new Error(`Error getting all recipes: ${error.message}`);
+    throw new Error(`Error getting all recipes: ${error?.message}`);
   }
 }
 
@@ -51,7 +51,7 @@ async function getRecipeById(recipeId) {
       return replaceMongoIdInObject(recipe);
     }
   } catch (error) {
-    throw new Error(`Error getting recipe by ID: ${error.message}`);
+    throw new Error(`Error getting recipe by ID: ${error?.message}`);
   }
 }
 
@@ -62,7 +62,7 @@ async function getRecipeByCategory(categoryName) {
     const recipe = await Recipe.find({ category: categoryName }).lean();
     return replaceMongoIdInArray(recipe);
   } catch (error) {
-    throw new Error(`Error getting recipe by category: ${error.message}`);
+    throw new Error(`Error getting recipe by category: ${error?.message}`);
   }
 }
 
@@ -70,7 +70,7 @@ async function updateIsFavourite(recipeId, authUser) {
   try {
     await dbConnect();
 
-    const user = await User.findById(authUser.id);
+    const user = await User.findById(authUser?.id);
 
     if (user) {
       const foundRecipe = user.favourites.find(
@@ -87,7 +87,25 @@ async function updateIsFavourite(recipeId, authUser) {
       return res;
     }
   } catch (error) {
-    throw new Error(`Error updating favourite: ${error.message}`);
+    throw new Error(`Error updating favourite: ${error?.message}`);
+  }
+}
+
+async function getCategories() {
+  try {
+    await dbConnect();
+
+    const categories = await Recipe.aggregate([
+      { $group: { _id: "$category" } },
+      { $project: { _id: 0, category: "$_id" } },
+    ]);
+
+    // Extract category names from the result
+    const categoryList = categories.map((category) => category.category);
+
+    return categoryList;
+  } catch (error) {
+    throw new Error(`Error retrieving categories: ${error?.message}`);
   }
 }
 
@@ -95,6 +113,7 @@ export {
   createUser,
   findUserByCredentials,
   getAllRecipes,
+  getCategories,
   getRecipeByCategory,
   getRecipeById,
   updateIsFavourite,

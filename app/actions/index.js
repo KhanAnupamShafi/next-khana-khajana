@@ -2,39 +2,62 @@
 import {
   createUser,
   findUserByCredentials,
+  getCategories,
   updateIsFavourite,
 } from "@/db/queries";
-import { Recipe } from "@/models/recipe-model";
 import { replaceMongoIdInObject } from "@/utils";
 import { redirect } from "next/navigation";
 
 async function registerUser(formData) {
-  const user = Object.fromEntries(formData);
-  await createUser(user);
-  redirect("/login");
+  try {
+    const user = Object.fromEntries(formData);
+    await createUser(user);
+    redirect("/login");
+  } catch (error) {
+    // Handle registration error
+    console.error("Error registering user:", error);
+    // Optionally, redirect to an error page or return an error message
+    throw new Error("User registration failed");
+  }
 }
 
 async function loginUser(formData) {
-  const credential = {};
-  credential.email = formData.get("email");
-  credential.password = formData.get("password");
-  const found = await findUserByCredentials(credential);
-  return found;
+  try {
+    const credential = {};
+    credential.email = formData.get("email");
+    credential.password = formData.get("password");
+    const found = await findUserByCredentials(credential);
+    return found;
+  } catch (error) {
+    // Handle login error
+    console.error("Error logging in user:", error);
+    // Optionally, redirect to an error page or return an error message
+    throw new Error("Login failed");
+  }
 }
-async function retrieveCategories() {
-  const categories = await Recipe.aggregate([
-    { $group: { _id: "$category" } },
-    { $project: { _id: 0, category: "$_id" } },
-  ]);
-  // Extract category names from the result
-  const categoryList = categories.map((category) => category.category);
 
-  return categoryList;
+async function retrieveCategories() {
+  try {
+    const categories = await getCategories();
+    return categories;
+  } catch (error) {
+    // Handle category retrieval error
+    console.error("Error retrieving categories:", error);
+    // Optionally, redirect to an error page or return an error message
+    throw new Error("Failed to retrieve categories");
+  }
 }
 
 async function addToFavourite(recipeId, auth) {
-  const res = await updateIsFavourite(recipeId, auth);
-  return replaceMongoIdInObject(res?._doc);
+  try {
+    const res = await updateIsFavourite(recipeId, auth);
+    return replaceMongoIdInObject(res?._doc);
+  } catch (error) {
+    // Handle addToFavourite error
+    console.error("Error adding to favorites:", error);
+    // Optionally, redirect to an error page or return an error message
+    throw new Error("Failed to add to favorites");
+  }
 }
 
 export { addToFavourite, loginUser, registerUser, retrieveCategories };
