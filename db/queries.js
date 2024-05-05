@@ -45,6 +45,8 @@ async function getAllRecipes() {
 }
 
 async function getRecipeById(recipeId) {
+  await dbConnect();
+
   const recipe = await Recipe.findById(recipeId).lean();
   return replaceMongoIdInObject(recipe);
 }

@@ -22,7 +22,6 @@ import Image from "next/image";
 // }
 const RecipeDetailPage = async ({ params: { id } }) => {
   const recipe = await getRecipeById(id);
-  console.log(recipe);
 
   return (
     <main>
