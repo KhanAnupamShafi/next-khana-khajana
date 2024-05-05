@@ -1,3 +1,5 @@
+import MakeFavourite from "@/components/recipe-detail/MakeFavourite";
+import Procedure from "@/components/recipe-detail/Procedure";
 import Share from "@/components/recipe-detail/Share";
 import { getRecipeById } from "@/db/queries";
 import Image from "next/image";
@@ -39,13 +41,13 @@ const RecipeDetailPage = async ({ params: { id } }) => {
           </div>
           <div className='col-span-12 md:col-span-6 py-8 flex flex-col justify-center'>
             <h2 className='font-semibold text-4xl lg:w-8/12 leading-10'>
-              {/* {recipe?.name} */}xx
+              {recipe?.name}
             </h2>
             <p className='text-xs text-[#eb4a36] italic my-2'>
-              {/* {recipe?.category} */}xx
+              {recipe?.category}
             </p>
             <p className='text-gray-600 text-sm my-6 leading-6'>
-              {/* {recipe?.description} */}xx
+              {recipe?.description}
             </p>
 
             <div className='flex gap-4 justify-center divide-x my-12'>
@@ -68,7 +70,7 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                 <h3 className='font-medium text-lg text-gray-700 mt-2'>
                   Prep time
                 </h3>
-                {/* <p className='text-gray-500 text-sm'>{recipe?.activeTime}</p> */}
+                <p className='text-gray-500 text-sm'>{recipe?.activeTime}</p>
               </div>
               <div className='flex-1 text-center'>
                 <svg
@@ -90,7 +92,7 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                 <h3 className='font-medium text-lg text-gray-700 mt-2'>
                   Cook time
                 </h3>
-                {/* <p className='text-gray-500 text-sm'>{recipe?.totalTime}</p> */}
+                <p className='text-gray-500 text-sm'>{recipe?.totalTime}</p>
               </div>
               <div className='flex-1 text-center'>
                 <svg
@@ -113,12 +115,12 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                 <h3 className='font-medium text-lg text-gray-700 mt-2'>
                   Servings
                 </h3>
-                {/* <p className='text-gray-500 text-sm'>{recipe?.serves}</p> */}
+                <p className='text-gray-500 text-sm'>{recipe?.serves}</p>
               </div>
             </div>
 
             <div className='flex gap-4 justify-end'>
-              {/* <MakeFavourite recipeId={recipe?.id} /> */}
+              <MakeFavourite recipeId={recipe?.id} />
 
               <Share />
             </div>
@@ -130,9 +132,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
         <div class='container py-12'>
           <h3 class='font-semibold text-xl py-6'>How to Make it</h3>
           <div>
-            {/* {recipe?.steps?.map((step, i) => (
+            {recipe?.steps?.map((step, i) => (
               <Procedure key={i} step={i} desc={step} />
-            ))} */}
+            ))}
           </div>
         </div>
       </section>
