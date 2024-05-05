@@ -2,7 +2,7 @@ import RegisterForm from "@/components/auth/RegisterForm";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Sign Up || Khana Khajana",
+  title: "Sign Up || Khana Khazana",
 };
 const page = () => {
   return (

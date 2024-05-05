@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { FacebookShare, LinkedinShare, TwitterShare } from "react-share-kit";
+import { FacebookShare, LinkedinShare, WhatsappShare } from "react-share-kit";
 
 const Share = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -26,7 +26,7 @@ const Share = () => {
   }, []);
   const socialShareButtons = [
     { Button: FacebookShare, text: "Facebook" },
-    { Button: TwitterShare, text: "Twitter" },
+    { Button: WhatsappShare, text: "Whatsapp" },
     { Button: LinkedinShare, text: "LinkedIn" },
   ];
   return (
