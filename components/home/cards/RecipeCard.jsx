@@ -1,8 +1,11 @@
+import { getBlurData } from "@/utils/getBlurImage";
 import Image from "next/image";
 import Link from "next/link";
 
-const RecipeCard = ({ recipeData }) => {
+const RecipeCard = async ({ recipeData }) => {
   const { id, name, thumbnail, author, rating } = recipeData;
+  const { base64 } = await getBlurData(thumbnail);
+
   return (
     <div className='card cursor-pointer'>
       <Image
@@ -11,6 +14,8 @@ const RecipeCard = ({ recipeData }) => {
         alt={`${name}_image`}
         height={300}
         width={300}
+        placeholder='blur'
+        blurDataURL={base64}
       />
       <Link href={`recipe/${id}`}>
         <h4 className='my-2'>{name}</h4>

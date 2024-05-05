@@ -4,24 +4,33 @@ import Share from "@/components/recipe-detail/Share";
 import { getRecipeById } from "@/db/queries";
 import Image from "next/image";
 
-// export async function generateMetadata({ params: { id } }) {
-//   const recipe = await getRecipeById(id);
+export async function generateMetadata({ params: { id } }) {
+  const recipe = await getRecipeById(id);
 
-//   if (recipe) {
-//     return {
-//       title: `${recipe?.name}`,
-//       description: recipe?.description,
-//       openGraph: {
-//         images: [recipe?.image],
-//       },
-//     };
-//   } else {
-//     return {
-//       title: "Recipe Not Found",
-//       description: "Recipe not found that requested by user.",
-//     };
-//   }
-// }
+  if (recipe) {
+    return {
+      title: `${recipe?.name}`,
+      description: recipe?.description,
+      openGraph: {
+        title: recipe?.name,
+        description: recipe?.description,
+        images: [
+          {
+            type: "image/png",
+            width: 1200,
+            height: 630,
+            url: `${recipe?.image}`,
+          },
+        ],
+      },
+    };
+  } else {
+    return {
+      title: "Recipe Not Found",
+      description: "Recipe not found that requested by user.",
+    };
+  }
+}
 const RecipeDetailPage = async ({ params: { id } }) => {
   const recipe = await getRecipeById(id);
 

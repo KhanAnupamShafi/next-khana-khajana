@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const Hero = () => {
+const Hero = async () => {
   return (
     <div className='relative py-4 bg-white rounded-lg p-4 md:p-12 min-h-[450px] grid place-items-center grid-cols-12'>
       <div className='col-span-12 md:col-span-6 relative z-10'>
@@ -22,6 +22,8 @@ const Hero = () => {
           objectFit='cover'
           quality={100}
           priority={true}
+          //   placeholder='blur'
+          //   blurDataURL={base64}
         />
       </div>
     </div>
