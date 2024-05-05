@@ -3,6 +3,7 @@ import Procedure from "@/components/recipe-detail/Procedure";
 import Share from "@/components/recipe-detail/Share";
 import { getRecipeById } from "@/db/queries";
 import Image from "next/image";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params: { id } }) {
   const recipe = await getRecipeById(id);
@@ -35,7 +36,7 @@ const RecipeDetailPage = async ({ params: { id } }) => {
   const recipe = await getRecipeById(id);
 
   return (
-    <main>
+    <Suspense fallback={<div>Lod</div>}>
       <section>
         <div className='grid grid-cols-12 container gap-8 justify-items-center'>
           <div className='col-span-12 md:col-span-6'>
@@ -68,9 +69,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                   viewBox='0 0 24 24'
                   fill='none'
                   stroke='currentColor'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   className='mx-auto'>
                   <path stroke='none' d='M0 0h24v24H0z' fill='none' />
                   <path d='M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0' />
@@ -89,9 +90,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                   viewBox='0 0 24 24'
                   fill='none'
                   stroke='currentColor'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   className='mx-auto'>
                   <path stroke='none' d='M0 0h24v24H0z' fill='none' />
                   <path d='M6.5 17h11' />
@@ -111,9 +112,9 @@ const RecipeDetailPage = async ({ params: { id } }) => {
                   viewBox='0 0 24 24'
                   fill='none'
                   stroke='currentColor'
-                  stroke-width='2'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
                   className='mx-auto'>
                   <path stroke='none' d='M0 0h24v24H0z' fill='none' />
                   <path d='M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0' />
@@ -147,7 +148,7 @@ const RecipeDetailPage = async ({ params: { id } }) => {
           </div>
         </div>
       </section>
-    </main>
+    </Suspense>
   );
 };
 

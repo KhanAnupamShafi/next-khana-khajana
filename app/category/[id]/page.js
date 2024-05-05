@@ -1,5 +1,7 @@
 import RecipeCard from "@/components/home/cards/RecipeCard";
+import Loader from "@/components/spinner/Loader";
 import { getRecipeByCategory } from "@/db/queries";
+import { Suspense } from "react";
 
 export async function generateMetadata({ params: { id } }) {
   const categoryName = decodeURIComponent(id);
@@ -13,7 +15,7 @@ const page = async ({ params: { id } }) => {
   const recipes = await getRecipeByCategory(categoryName);
   return (
     <section className='container py-8'>
-      <div>
+      <Suspense fallback={<Loader />}>
         {recipes?.length > 0 ? (
           <>
             <h3 className='font-semibold text-xl'>{categoryName}</h3>
@@ -26,7 +28,7 @@ const page = async ({ params: { id } }) => {
         ) : (
           <p>{`Recipe Category ${categoryName} Not Found!`}</p>
         )}
-      </div>
+      </Suspense>
     </section>
   );
 };
