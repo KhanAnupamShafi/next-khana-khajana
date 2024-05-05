@@ -45,14 +45,8 @@ async function getAllRecipes() {
 }
 
 async function getRecipeById(recipeId) {
-  try {
-    const recipe = await Recipe.findById(recipeId).lean();
-    if (recipe) {
-      return replaceMongoIdInObject(recipe);
-    }
-  } catch (error) {
-    throw new Error(`Error getting recipe by ID: ${error?.message}`);
-  }
+  const recipe = await Recipe.findById(recipeId).lean();
+  return replaceMongoIdInObject(recipe);
 }
 
 async function getRecipeByCategory(categoryName) {
