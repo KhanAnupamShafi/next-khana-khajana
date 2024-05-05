@@ -1,6 +1,7 @@
 import MakeFavourite from "@/components/recipe-detail/MakeFavourite";
 import Procedure from "@/components/recipe-detail/Procedure";
 import Share from "@/components/recipe-detail/Share";
+import Backdrop from "@/components/spinner/Backdrop";
 import { getRecipeById } from "@/db/queries";
 import Image from "next/image";
 import { Suspense } from "react";
@@ -36,12 +37,12 @@ const RecipeDetailPage = async ({ params: { id } }) => {
   const recipe = await getRecipeById(id);
 
   return (
-    <Suspense fallback={<div>Lod</div>}>
+    <Suspense fallback={<Backdrop />}>
       <section>
         <div className='grid grid-cols-12 container gap-8 justify-items-center'>
           <div className='col-span-12 md:col-span-6'>
             <Image
-              src={recipe?.image}
+              src={recipe?.thumbnail}
               alt={`${recipe?.name}_thumbnail`}
               className='w-full h-full rounded-lg object-contain'
               priority

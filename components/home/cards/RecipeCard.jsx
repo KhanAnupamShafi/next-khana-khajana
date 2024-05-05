@@ -8,15 +8,17 @@ const RecipeCard = async ({ recipeData }) => {
 
   return (
     <div className='card cursor-pointer'>
-      <Image
-        src={thumbnail}
-        className='rounded-md h-[300] w-[300]'
-        alt={`${name}_image`}
-        height={300}
-        width={300}
-        placeholder='blur'
-        blurDataURL={base64}
-      />
+      <div className='w-[300px] h-[160px] relative'>
+        <Image
+          src={thumbnail}
+          className='rounded-md'
+          alt={`${name}_image`}
+          loading='eager'
+          layout='fill'
+          placeholder='blur'
+          blurDataURL={base64}
+        />
+      </div>
       <Link href={`/recipe/${id}`}>
         <h4 className='my-2'>{name}</h4>
       </Link>
