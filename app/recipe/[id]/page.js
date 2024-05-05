@@ -1,4 +1,6 @@
 import Share from "@/components/recipe-detail/Share";
+import { getRecipeById } from "@/db/queries";
+import Image from "next/image";
 
 // export async function generateMetadata({ params: { id } }) {
 //   const recipe = await getRecipeById(id);
@@ -19,22 +21,22 @@ import Share from "@/components/recipe-detail/Share";
 //   }
 // }
 const RecipeDetailPage = async ({ params: { id } }) => {
-  //   const recipe = await getRecipeById(id);
+  const recipe = await getRecipeById(id);
+  console.log(recipe);
 
   return (
     <main>
       <section>
         <div className='grid grid-cols-12 container gap-8 justify-items-center'>
           <div className='col-span-12 md:col-span-6'>
-            {id}
-            {/* <Image
+            <Image
               src={recipe?.image}
               alt={`${recipe?.name}_thumbnail`}
               className='w-full h-full rounded-lg object-contain'
               priority
               height={400}
               width={400}
-            /> */}
+            />
           </div>
           <div className='col-span-12 md:col-span-6 py-8 flex flex-col justify-center'>
             <h2 className='font-semibold text-4xl lg:w-8/12 leading-10'>
